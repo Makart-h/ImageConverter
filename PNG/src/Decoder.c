@@ -1,0 +1,90 @@
+#include <stdlib.h>
+#include <stdbool.h>
+#include "Decoder.h"
+#include "Chunk.h"
+#include "Byte4.h"
+#include "IHDR.h"
+
+bool DecodePNG(FILE* png);
+bool DecodeHeader(FILE* png);
+bool HandleChunk(Chunk* chunk);
+
+bool DecodePNG(FILE* png)
+{
+	if (png == NULL)
+		return false;
+
+	if (!DecodeHeader(png))
+		return false;
+
+	bool shouldContinue = true;
+	while (shouldContinue)
+	{
+		Chunk* chunk = ReadChunkData(png);
+		if (chunk != NULL && chunk->IsValid)
+		{
+			shouldContinue = HandleChunk(chunk);
+			free(chunk);
+		}
+		else
+		{
+			printf("Not a valid chunk data! CRC mismatch!");
+			return false;
+		}
+	}
+	return true;
+}
+
+bool DecodeHeader(FILE* png)
+{
+	// These are always the first 8 bytes of a PNG datastream.
+	const byte signature[HEADER_SIZE] = { 137, 80, 78, 71, 13, 10, 26, 10 };
+	byte header[HEADER_SIZE];
+	fread_s(header, HEADER_SIZE, BYTE_SIZE, HEADER_SIZE, png);
+	for (int i = 0; i < HEADER_SIZE; ++i) {
+		if (header[i] != signature[i])
+			return false;
+	}
+	return true;
+}
+
+bool HandleChunk(Chunk* chunk)
+{
+	bool shouldContinue = false;
+	if (CompareChunkType(chunk, "IHDR"))
+	{
+		IHDR* ihdr = GetIHDR(chunk->Data);
+		if (ihdr != NULL && ihdr->IsValid)
+		{
+			PrintIHDR(ihdr);
+			free(ihdr);
+			shouldContinue = true;
+		}
+	}
+	else if (CompareChunkType(chunk, "PLTE"))
+	{
+		printf("Handling PLTE!\n");
+		shouldContinue = true;
+	}
+	else if (CompareChunkType(chunk, "IDAT"))
+	{
+		printf("Handling IDAT!\n");
+		shouldContinue = true;
+	}
+	else if (CompareChunkType(chunk, "IEND"))
+	{
+		printf("Handling IEND!\n");
+		shouldContinue = false;
+	}
+	else
+	{
+		printf("Handling ancillary chunk!\n");
+		for (int i = 0; i < 4; i++)
+			printf("%c", *(chunk->Type + i));
+		printf("\n");
+		shouldContinue = true;
+	}
+	if(chunk->Length > 0)
+		free(chunk->Data);
+	return shouldContinue;
+}
