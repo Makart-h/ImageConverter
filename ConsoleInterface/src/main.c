@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <conio.h>
-#include "PNG/header/Decoder.h"
 #include "Window.h"
 #include "KeyboardInput.h"
 
