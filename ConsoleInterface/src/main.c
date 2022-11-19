@@ -78,10 +78,11 @@ void HandlePNG()
 	else
 		printf("Error during decoding!");
 
-	IsRunning = false;
+	Exit();
 }
 
 void Exit()
 {
+	fclose(image);
 	IsRunning = false;
 }
