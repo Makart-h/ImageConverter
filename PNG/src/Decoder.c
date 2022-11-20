@@ -5,10 +5,13 @@
 #include "Byte4.h"
 #include "IHDR.h"
 #include "PLTE.h"
+#include "IDAT.h"
 
 bool DecodePNG(FILE* png);
 bool DecodeHeader(FILE* png);
 bool HandleChunk(Chunk* chunk);
+
+IDAT* concatenatedIDAT = NULL;
 
 bool DecodePNG(FILE* png)
 {
@@ -80,6 +83,28 @@ bool HandleChunk(Chunk* chunk)
 	else if (CompareChunkType(chunk, "IDAT"))
 	{
 		printf("Handling IDAT!\n");
+		IDAT* idat = GetIDAT(chunk);
+		if (idat != NULL)
+		{
+			if (concatenatedIDAT != NULL)
+			{
+				size_t size = concatenatedIDAT->DataSize;
+				concatenatedIDAT = ConcatIDATs(concatenatedIDAT, idat);
+				if (concatenatedIDAT != NULL)
+				{
+					printf("previous mega size: %lld, current mega size: %lld\n", size, concatenatedIDAT->DataSize);
+				}
+				else
+				{
+					printf("Concat didn't work :(\n");
+				}
+			}
+			else
+			{
+				printf("First IDAT size: %lld\n", idat->DataSize);
+				concatenatedIDAT = idat;
+			}
+		}
 		shouldContinue = true;
 	}
 	else if (CompareChunkType(chunk, "IEND"))
