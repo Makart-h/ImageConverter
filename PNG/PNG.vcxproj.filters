@@ -27,6 +27,12 @@
     <ClCompile Include="src\IHDR.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\PLTE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDAT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Byte4.h">
@@ -39,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\IHDR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\PLTE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\IDAT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

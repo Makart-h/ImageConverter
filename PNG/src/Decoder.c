@@ -120,6 +120,6 @@ bool HandleChunk(Chunk* chunk)
 		printf("\n");
 		shouldContinue = true;
 	}
-		free(chunk->Data);
+	free(chunk->Data);
 	return shouldContinue;
 }
