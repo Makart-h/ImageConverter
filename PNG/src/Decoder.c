@@ -120,7 +120,6 @@ bool HandleChunk(Chunk* chunk)
 		printf("\n");
 		shouldContinue = true;
 	}
-	if(chunk->Length > 0)
 		free(chunk->Data);
 	return shouldContinue;
 }
