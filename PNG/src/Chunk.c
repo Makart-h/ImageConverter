@@ -9,13 +9,14 @@ void CreateCRCTable();
 uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize);
 uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize);
 void ValidateChunkData(Chunk* chunk);
+byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize);
 
 uint32_t crcTable[BYTE_VALUES_COUNT];
 bool crcTableCreated = false;
 
 bool CompareChunkType(Chunk* chunk, const char* const string)
 {
-    for (int i = 0; i < TYPE_SIZE; ++i)
+    for (int i = 0; i < TYPE_BYTE_COUNT; ++i)
     {
         if (*(chunk->Type + i) != *(string + i))
             return false;
@@ -39,6 +40,10 @@ Chunk* ReadChunkData(FILE* png)
             if (chunk->Data != NULL)
                 fread_s(chunk->Data, chunk->Length, BYTE_SIZE, chunk->Length, png);
         }
+        else
+        {
+            chunk->Data = NULL;
+        }
         ReadByte4FromFILE(png, &byte4, false);
         chunk->CRC = byte4.int32Value;
         ValidateChunkData(chunk);
@@ -48,20 +53,33 @@ Chunk* ReadChunkData(FILE* png)
 
 void ValidateChunkData(Chunk* chunk)
 {
-    size_t size = (size_t)(chunk->Length) + 4;
-    uint8_t* buffer = (uint8_t*)malloc(size);
-    for (int i = 0, j = 0; i < size; ++i)
+    size_t crcBufferSize = 0;
+    byte* crcBuffer = ConcatTypeAndData(chunk, &crcBufferSize);
+    if (crcBuffer != NULL)
+    {      
+        uint32_t calculated = CalculateCRC(crcBuffer, crcBufferSize);
+        chunk->IsValid = calculated == chunk->CRC;
+        free(crcBuffer);
+    } 
+}
+
+byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize)
+{
+    *outBufferSize = (size_t)(chunk->Length) + TYPE_BYTE_COUNT;
+    byte* buffer = (byte*)malloc(*outBufferSize);
+    if (buffer != NULL)
     {
-        if (i < TYPE_SIZE)
-            *(buffer + i) = chunk->Type[i];
-        else
+        for (int i = 0, j = 0; i < *outBufferSize; ++i)
         {
-            *(buffer + i) = chunk->Data[j++];
+            if (i < TYPE_BYTE_COUNT)
+                *(buffer + i) = chunk->Type[i];
+            else
+            {
+                *(buffer + i) = chunk->Data[j++];
+            }
         }
     }
-    uint32_t calculated = CalculateCRC(buffer, size);
-    chunk->IsValid = calculated == chunk->CRC;
-    free(buffer);
+    return buffer;
 }
 
 uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize)
