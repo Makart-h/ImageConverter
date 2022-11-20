@@ -4,6 +4,7 @@
 #include "Chunk.h"
 #include "Byte4.h"
 #include "IHDR.h"
+#include "PLTE.h"
 
 bool DecodePNG(FILE* png);
 bool DecodeHeader(FILE* png);
@@ -64,6 +65,16 @@ bool HandleChunk(Chunk* chunk)
 	else if (CompareChunkType(chunk, "PLTE"))
 	{
 		printf("Handling PLTE!\n");
+		PLTE* plte = GetPLTE(chunk);
+		if (plte != NULL)
+		{
+			for (int i = 0; i < plte->Count; ++i)
+			{
+				RGB* entry = (plte->Entries + i);
+				printf("[%3d] R->%3d, G->%3d, B->%3d \n", i, entry->Red, entry->Green, entry->Blue);
+			}
+		}
+		FreePLTE(plte);
 		shouldContinue = true;
 	}
 	else if (CompareChunkType(chunk, "IDAT"))
