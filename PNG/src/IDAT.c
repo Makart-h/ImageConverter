@@ -41,7 +41,7 @@ IDAT* IDAT_Concat(IDAT* first, IDAT* other)
 		{
 			errno_t error1 = memcpy_s(newData, first->DataSize, first->Data, first->DataSize);
 			size_t otherSize = other->DataSize;
-			errno_t error2 = memcpy_s(newData + first->DataSize - 1, otherSize, other->Data, otherSize);
+			errno_t error2 = memcpy_s(newData + first->DataSize, otherSize, other->Data, otherSize);
 			if (error1 != 0 || error2 != 0)
 			{
 				return NULL;
