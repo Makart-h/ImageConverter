@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "Byte4.h"
+#include "FourBytes.h"
 
 typedef struct {
 	uint32_t Width;
@@ -13,5 +13,5 @@ typedef struct {
 	bool IsValid;
 } IHDR;
 
-void PrintIHDR(IHDR* ihdr);
-IHDR* GetIHDR(byte* data);
+void IHDR_Print(IHDR* ihdr);
+IHDR* IHDR_Get(byte* data);

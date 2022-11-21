@@ -72,7 +72,7 @@ void HandleInput(Window* window, int keyCode)
 
 void HandlePNG()
 {
-	if (DecodePNG(image))
+	if (PNG_Decode(image))
 		printf("File decoded succesfully!");
 	else
 		printf("Error during decoding!");

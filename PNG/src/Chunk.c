@@ -14,7 +14,7 @@ byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize);
 uint32_t crcTable[BYTE_VALUES_COUNT];
 bool crcTableCreated = false;
 
-bool CompareChunkType(Chunk* chunk, const char* const string)
+bool Chunk_CompareType(Chunk* chunk, const char* const string)
 {
     for (int i = 0; i < TYPE_BYTE_COUNT; ++i)
     {
@@ -24,16 +24,16 @@ bool CompareChunkType(Chunk* chunk, const char* const string)
     return true;
 }
 
-Chunk* ReadChunkData(FILE* png)
+Chunk* Chunk_ReadData(FILE* png)
 {
     Chunk* chunk = malloc(sizeof(Chunk));
     if (chunk != NULL)
     {
-        Byte4 byte4;
-        ReadByte4FromFILE(png, &byte4, false);
-        chunk->Length = byte4.int32Value;
-        ReadByte4FromFILE(png, &byte4, true);
-        *(uint32_t*)chunk->Type = byte4.int32Value;
+        FourBytes fourB;
+        FourB_ReadFromFILE(png, &fourB, false);
+        chunk->Length = fourB.int32Value;
+        FourB_ReadFromFILE(png, &fourB, true);
+        *(uint32_t*)chunk->Type = fourB.int32Value;
         if (chunk->Length > 0)
         {
             chunk->Data = (uint8_t*)malloc(chunk->Length);
@@ -44,8 +44,8 @@ Chunk* ReadChunkData(FILE* png)
         {
             chunk->Data = NULL;
         }
-        ReadByte4FromFILE(png, &byte4, false);
-        chunk->CRC = byte4.int32Value;
+        FourB_ReadFromFILE(png, &fourB, false);
+        chunk->CRC = fourB.int32Value;
         ValidateChunkData(chunk);
     }
     return chunk;

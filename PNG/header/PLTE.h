@@ -10,5 +10,5 @@ typedef struct {
 	RGB* Entries;
 } PLTE;
 
-PLTE* GetPLTE(Chunk* chunk);
-void FreePLTE(PLTE* plte);
+PLTE* PLTE_Get(Chunk* chunk);
+void PLTE_Free(PLTE* plte);

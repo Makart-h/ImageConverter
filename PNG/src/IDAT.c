@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-IDAT* GetIDAT(Chunk* chunk)
+IDAT* IDAT_Get(Chunk* chunk)
 {
 	if (chunk == NULL)
 		return NULL;
@@ -28,7 +28,7 @@ IDAT* GetIDAT(Chunk* chunk)
 	return idat;
 }
 
-IDAT* ConcatIDATs(IDAT* first, IDAT* other)
+IDAT* IDAT_Concat(IDAT* first, IDAT* other)
 {
 	if (first != NULL && other != NULL)
 	{		

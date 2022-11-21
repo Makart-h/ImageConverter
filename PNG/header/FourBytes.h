@@ -5,8 +5,9 @@
 
 typedef uint8_t byte;
 #define BYTE_SIZE 1
+#define BYTE_COUNT 4
 
-typedef struct Byte4 {
+typedef struct {
 	union {
 		struct {
 			byte byte1;
@@ -16,7 +17,7 @@ typedef struct Byte4 {
 		};
 		uint32_t int32Value;
 	};
-} Byte4;
+} FourBytes;
 
-void ReadByte4FromBuffer(Byte4* byte4, byte* buffer, int offset, bool fromLeft);
-void ReadByte4FromFILE(FILE* png, Byte4* buffer, bool fromLeftToRight);
+void FourB_ReadFromBuffer(FourBytes* byte4, byte* buffer, int offset, bool fromLeft);
+void FourB_ReadFromFILE(FILE* png, FourBytes* buffer, bool fromLeftToRight);

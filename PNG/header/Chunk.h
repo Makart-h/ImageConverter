@@ -12,5 +12,5 @@ typedef struct {
 	bool IsValid;
 } Chunk;
 
-Chunk* ReadChunkData(FILE* png);
-bool CompareChunkType(Chunk* chunk, const char* const string);
+Chunk* Chunk_ReadData(FILE* png);
+bool Chunk_CompareType(Chunk* chunk, const char* const string);

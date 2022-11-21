@@ -9,7 +9,7 @@ bool ValidateBitDepth(byte colorType, byte bitDepth);
 void ReadSize(IHDR* ihdr, byte* data, int* offset);
 uint32_t ReadInt32(byte* data, int* offset);
 
-IHDR* GetIHDR(byte* data)
+IHDR* IHDR_Get(byte* data)
 {
 	IHDR* ihdr = malloc(sizeof(IHDR));
 	if (ihdr != NULL)
@@ -126,13 +126,13 @@ void ReadSize(IHDR* ihdr, byte* data, int* offset)
 
 uint32_t ReadInt32(byte* data, int* offset)
 {
-	Byte4 byte4;
-	ReadByte4FromBuffer(&byte4, data, *offset, false);
-	*offset += sizeof(Byte4);
-	return byte4.int32Value;
+	FourBytes fourB;
+	FourB_ReadFromBuffer(&fourB, data, *offset, false);
+	*offset += sizeof(FourBytes);
+	return fourB.int32Value;
 }
 
-void PrintIHDR(IHDR* ihdr)
+void IHDR_Print(IHDR* ihdr)
 {
 	printf("Width: %d\n", ihdr->Width);
 	printf("Height: %d\n", ihdr->Height);

@@ -1,6 +1,6 @@
-#include "Byte4.h"
+#include "FourBytes.h"
 
-void ReadByte4FromFILE(FILE* png, Byte4* buffer, bool fromLeftToRight)
+void FourB_ReadFromFILE(FILE* png, FourBytes* buffer, bool fromLeftToRight)
 {
 	size_t count = sizeof * buffer / BYTE_SIZE;
 	if (fromLeftToRight)
@@ -17,19 +17,20 @@ void ReadByte4FromFILE(FILE* png, Byte4* buffer, bool fromLeftToRight)
 	}
 }
 
-void ReadByte4FromBuffer(Byte4* byte4, byte* buffer, int offset, bool fromLeft)
+void FourB_ReadFromBuffer(FourBytes* byte4, byte* buffer, int offset, bool fromLeft)
 {
 	byte* p = byte4;
 	if (fromLeft)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < BYTE_COUNT; i++)
 		{
 			*(p++) = *(buffer + offset + i);
 		}
 	}
 	else
 	{
-		for (int i = 3; i >= 0; i--) {
+		for (int i = BYTE_COUNT - 1; i >= 0; i--)
+		{
 			*(p++) = *(buffer + offset + i);
 		}
 	}

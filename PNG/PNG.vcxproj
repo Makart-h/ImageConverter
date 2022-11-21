@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Byte4.c" />
+    <ClCompile Include="src\FourBytes.c" />
     <ClCompile Include="src\Chunk.c" />
     <ClCompile Include="src\Decoder.c" />
     <ClCompile Include="src\IDAT.c" />
@@ -27,7 +27,7 @@
     <ClCompile Include="src\PLTE.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Byte4.h" />
+    <ClInclude Include="header\FourBytes.h" />
     <ClInclude Include="header\Chunk.h" />
     <ClInclude Include="header\Decoder.h" />
     <ClInclude Include="header\IDAT.h" />

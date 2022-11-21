@@ -2,18 +2,18 @@
 #include <stdbool.h>
 #include "Decoder.h"
 #include "Chunk.h"
-#include "Byte4.h"
+#include "FourBytes.h"
 #include "IHDR.h"
 #include "PLTE.h"
 #include "IDAT.h"
 
-bool DecodePNG(FILE* png);
+bool PNG_Decode(FILE* png);
 bool DecodeHeader(FILE* png);
 bool HandleChunk(Chunk* chunk);
 
 IDAT* concatenatedIDAT = NULL;
 
-bool DecodePNG(FILE* png)
+bool PNG_Decode(FILE* png)
 {
 	if (png == NULL)
 		return false;
@@ -24,7 +24,7 @@ bool DecodePNG(FILE* png)
 	bool shouldContinue = true;
 	while (shouldContinue)
 	{
-		Chunk* chunk = ReadChunkData(png);
+		Chunk* chunk = Chunk_ReadData(png);
 		if (chunk != NULL && chunk->IsValid)
 		{
 			shouldContinue = HandleChunk(chunk);
@@ -55,20 +55,20 @@ bool DecodeHeader(FILE* png)
 bool HandleChunk(Chunk* chunk)
 {
 	bool shouldContinue = false;
-	if (CompareChunkType(chunk, "IHDR"))
+	if (Chunk_CompareType(chunk, "IHDR"))
 	{
-		IHDR* ihdr = GetIHDR(chunk->Data);
+		IHDR* ihdr = IHDR_Get(chunk->Data);
 		if (ihdr != NULL && ihdr->IsValid)
 		{
-			PrintIHDR(ihdr);
+			IHDR_Print(ihdr);
 			free(ihdr);
 			shouldContinue = true;
 		}
 	}
-	else if (CompareChunkType(chunk, "PLTE"))
+	else if (Chunk_CompareType(chunk, "PLTE"))
 	{
 		printf("Handling PLTE!\n");
-		PLTE* plte = GetPLTE(chunk);
+		PLTE* plte = PLTE_Get(chunk);
 		if (plte != NULL)
 		{
 			for (int i = 0; i < plte->Count; ++i)
@@ -77,19 +77,19 @@ bool HandleChunk(Chunk* chunk)
 				printf("[%3d] R->%3d, G->%3d, B->%3d \n", i, entry->Red, entry->Green, entry->Blue);
 			}
 		}
-		FreePLTE(plte);
+		PLTE_Free(plte);
 		shouldContinue = true;
 	}
-	else if (CompareChunkType(chunk, "IDAT"))
+	else if (Chunk_CompareType(chunk, "IDAT"))
 	{
 		printf("Handling IDAT!\n");
-		IDAT* idat = GetIDAT(chunk);
+		IDAT* idat = IDAT_Get(chunk);
 		if (idat != NULL)
 		{
 			if (concatenatedIDAT != NULL)
 			{
 				size_t size = concatenatedIDAT->DataSize;
-				concatenatedIDAT = ConcatIDATs(concatenatedIDAT, idat);
+				concatenatedIDAT = IDAT_Concat(concatenatedIDAT, idat);
 				if (concatenatedIDAT != NULL)
 				{
 					printf("previous mega size: %lld, current mega size: %lld\n", size, concatenatedIDAT->DataSize);
@@ -107,7 +107,7 @@ bool HandleChunk(Chunk* chunk)
 		}
 		shouldContinue = true;
 	}
-	else if (CompareChunkType(chunk, "IEND"))
+	else if (Chunk_CompareType(chunk, "IEND"))
 	{
 		printf("Handling IEND!\n");
 		shouldContinue = false;

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Byte4.c">
+    <ClCompile Include="src\FourBytes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Chunk.c">
@@ -35,7 +35,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Byte4.h">
+    <ClInclude Include="header\FourBytes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\Chunk.h">

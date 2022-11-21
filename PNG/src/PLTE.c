@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-PLTE* GetPLTE(Chunk* chunk)
+PLTE* PLTE_Get(Chunk* chunk)
 {
 	if (chunk == NULL)
 		return NULL;
@@ -37,7 +37,7 @@ PLTE* GetPLTE(Chunk* chunk)
 	}
 }
 
-void FreePLTE(PLTE* plte)
+void PLTE_Free(PLTE* plte)
 {
 	if (plte != NULL)
 		free(plte->Entries);

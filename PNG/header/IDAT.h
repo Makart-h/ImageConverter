@@ -8,5 +8,5 @@ typedef struct
 	uint8_t* Data;
 } IDAT;
 
-IDAT* GetIDAT(Chunk* chunk);
-IDAT* ConcatIDATs(IDAT* first, IDAT* other);
+IDAT* IDAT_Get(Chunk* chunk);
+IDAT* IDAT_Concat(IDAT* first, IDAT* other);
