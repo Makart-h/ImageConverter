@@ -1,13 +1,13 @@
 #include "IHDR.h"
 #include <stdlib.h>
 
-void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset);
-void ReadFilterMethod(IHDR* ihdr, byte* data, int* offset);
-void ReadInterlaceMethod(IHDR* ihdr, byte* data, int* offset);
-void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset);
-bool ValidateBitDepth(byte colorType, byte bitDepth);
-void ReadSize(IHDR* ihdr, byte* data, int* offset);
-uint32_t ReadInt32(byte* data, int* offset);
+static void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset);
+static void ReadFilterMethod(IHDR* ihdr, byte* data, int* offset);
+static void ReadInterlaceMethod(IHDR* ihdr, byte* data, int* offset);
+static void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset);
+static bool ValidateBitDepth(byte colorType, byte bitDepth);
+static void ReadSize(IHDR* ihdr, byte* data, int* offset);
+static uint32_t ReadInt32(byte* data, int* offset);
 
 IHDR* IHDR_Get(byte* data)
 {
@@ -24,7 +24,7 @@ IHDR* IHDR_Get(byte* data)
 	return ihdr;
 }
 
-void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset)
+static void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset)
 {
 	ihdr->CompressionMethod = *(data + (*offset)++);
 	if (ihdr->CompressionMethod != 0)
@@ -34,7 +34,7 @@ void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset)
 	}
 }
 
-void ReadFilterMethod(IHDR* ihdr, byte* data, int* offset)
+static void ReadFilterMethod(IHDR* ihdr, byte* data, int* offset)
 {
 	ihdr->FilterMethod = *(data + (*offset)++);
 	if (ihdr->FilterMethod != 0)
@@ -44,7 +44,7 @@ void ReadFilterMethod(IHDR* ihdr, byte* data, int* offset)
 	}
 }
 
-void ReadInterlaceMethod(IHDR* ihdr, byte* data, int* offset)
+static void ReadInterlaceMethod(IHDR* ihdr, byte* data, int* offset)
 {
 	ihdr->InterlaceMethod = *(data + (*offset)++);
 	if (ihdr->InterlaceMethod != 0 && ihdr->InterlaceMethod != 1)
@@ -54,7 +54,7 @@ void ReadInterlaceMethod(IHDR* ihdr, byte* data, int* offset)
 	}
 }
 
-void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset)
+static void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset)
 {	
 	ihdr->BitDepth = *(data + (*offset)++);
 	ihdr->ColorType = *(data + (*offset)++);
@@ -81,7 +81,7 @@ void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset)
 	}
 }
 
-bool ValidateBitDepth(byte colorType, byte bitDepth)
+static bool ValidateBitDepth(byte colorType, byte bitDepth)
 {
 	byte validValues[] = { 1, 2, 4, 8, 16 };
 	byte firstIndex = 0, lastIndex = sizeof validValues - 1;
@@ -108,7 +108,7 @@ bool ValidateBitDepth(byte colorType, byte bitDepth)
 	return isBitDepthValid;
 }
 
-void ReadSize(IHDR* ihdr, byte* data, int* offset)
+static void ReadSize(IHDR* ihdr, byte* data, int* offset)
 {
 	ihdr->Width = ReadInt32(data, offset);
 	ihdr->Height = ReadInt32(data, offset);
@@ -124,7 +124,7 @@ void ReadSize(IHDR* ihdr, byte* data, int* offset)
 	}
 }
 
-uint32_t ReadInt32(byte* data, int* offset)
+static uint32_t ReadInt32(byte* data, int* offset)
 {
 	FourBytes fourB;
 	FourB_ReadFromBuffer(&fourB, data, *offset, false);

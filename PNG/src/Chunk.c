@@ -5,11 +5,11 @@
 #define BYTE_VALUES_COUNT 256
 #define BITS_COUNT 8
 
-void CreateCRCTable();
-uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize);
-uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize);
-void ValidateChunkData(Chunk* chunk);
-byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize);
+static void CreateCRCTable();
+static uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize);
+static uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize);
+static void ValidateChunkData(Chunk* chunk);
+static byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize);
 
 uint32_t crcTable[BYTE_VALUES_COUNT];
 bool crcTableCreated = false;
@@ -51,7 +51,7 @@ Chunk* Chunk_ReadData(FILE* png)
     return chunk;
 }
 
-void ValidateChunkData(Chunk* chunk)
+static void ValidateChunkData(Chunk* chunk)
 {
     size_t crcBufferSize = 0;
     byte* crcBuffer = ConcatTypeAndData(chunk, &crcBufferSize);
@@ -63,7 +63,7 @@ void ValidateChunkData(Chunk* chunk)
     } 
 }
 
-byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize)
+static byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize)
 {
     *outBufferSize = (size_t)(chunk->Length) + TYPE_BYTE_COUNT;
     byte* buffer = (byte*)malloc(*outBufferSize);
@@ -82,12 +82,12 @@ byte* ConcatTypeAndData(Chunk* chunk, size_t* outBufferSize)
     return buffer;
 }
 
-uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize)
+static uint32_t CalculateCRC(byte* buffer, uint32_t bufferSize)
 {
     return UpdateCRC(0xffffffffL, buffer, bufferSize) ^ 0xffffffffL;
 }
 
-uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize)
+static uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize)
 {
     uint32_t crc = initializedCRC;
 
@@ -102,7 +102,7 @@ uint32_t UpdateCRC(uint32_t initializedCRC, byte* buffer, uint32_t bufferSize)
     return crc;
 }
 
-void CreateCRCTable()
+static void CreateCRCTable()
 {
     uint32_t c;
     uint32_t n, k;
