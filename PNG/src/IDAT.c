@@ -1,6 +1,9 @@
 #include "IDAT.h"
 #include <stdlib.h>
 #include <string.h>
+#include "zlib/zlib.h"
+
+#define EXPECTED_COMPRESSION_RATIO 5
 
 IDAT* IDAT_Get(Chunk* chunk)
 {
@@ -56,6 +59,39 @@ IDAT* IDAT_Concat(IDAT* first, IDAT* other)
 					other = NULL;
 				}
 				return newIDAT;
+			}
+		}
+	}
+	return NULL;
+}
+
+IDAT* IDAT_Decompress(IDAT* compressed)
+{
+	IDAT* decompressed = (IDAT*)malloc(sizeof(IDAT));
+	if (decompressed != NULL)
+	{
+		decompressed->DataSize = compressed->DataSize * EXPECTED_COMPRESSION_RATIO;
+		decompressed->Data = (uint8_t*)malloc(decompressed->DataSize);
+		if (decompressed->Data != NULL)
+		{
+			int outcome = uncompress(decompressed->Data, &decompressed->DataSize, compressed->Data, compressed->DataSize);
+			switch (outcome)
+			{
+			case Z_OK:
+				uint8_t* old = decompressed->Data;
+				decompressed->Data = realloc(decompressed->Data, decompressed->DataSize);
+				if (decompressed->Data == NULL)
+					decompressed->Data = old;
+				return decompressed;
+			case Z_MEM_ERROR:
+				printf("Not enough memory!\n");
+				break;
+			case Z_BUF_ERROR:
+				printf("Not enough room in the output buffer!\n");
+				break;
+			case Z_DATA_ERROR:
+				printf("The input data was corrupted!\n");
+				break;
 			}
 		}
 	}
