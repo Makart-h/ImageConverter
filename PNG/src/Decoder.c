@@ -8,11 +8,8 @@
 #include "IDAT.h"
 #include "PNGImage.h"
 
-bool PNG_Decode(FILE* png);
-bool DecodeHeader(FILE* png);
-bool HandleChunk(Chunk* chunk);
-
-IDAT* concatenatedIDAT = NULL;
+static bool DecodeHeader(FILE* png);
+static bool HandleChunk(Chunk* chunk);
 
 bool PNG_Decode(FILE* png)
 {
@@ -40,7 +37,7 @@ bool PNG_Decode(FILE* png)
 	return true;
 }
 
-bool DecodeHeader(FILE* png)
+static bool DecodeHeader(FILE* png)
 {
 	// These are always the first 8 bytes of a PNG datastream.
 	const byte signature[HEADER_SIZE] = { 137, 80, 78, 71, 13, 10, 26, 10 };
@@ -53,16 +50,18 @@ bool DecodeHeader(FILE* png)
 	return true;
 }
 
-bool HandleChunk(Chunk* chunk)
+static bool HandleChunk(Chunk* chunk)
 {
+	static IDAT* concatenatedIDAT = NULL;
+	static IHDR* ihdr = NULL;
+	static PLTE* plte = NULL;
 	bool shouldContinue = false;
 	if (Chunk_CompareType(chunk, "IHDR"))
 	{
-		IHDR* ihdr = IHDR_Get(chunk->Data);
+		ihdr = IHDR_Get(chunk->Data);
 		if (ihdr != NULL && ihdr->IsValid)
 		{
 			IHDR_Print(ihdr);
-			free(ihdr);
 			shouldContinue = true;
 		}
 	}
@@ -78,7 +77,6 @@ bool HandleChunk(Chunk* chunk)
 				printf("[%3d] R->%3d, G->%3d, B->%3d \n", i, entry->Red, entry->Green, entry->Blue);
 			}
 		}
-		PLTE_Free(plte);
 		shouldContinue = true;
 	}
 	else if (Chunk_CompareType(chunk, "IDAT"))
@@ -93,7 +91,7 @@ bool HandleChunk(Chunk* chunk)
 				concatenatedIDAT = IDAT_Concat(concatenatedIDAT, idat);
 				if (concatenatedIDAT != NULL)
 				{
-					printf("previous mega size: %lld, current mega size: %lld\n", size, concatenatedIDAT->DataSize);
+					printf("Previous size: %d, current size: %d\n", size, concatenatedIDAT->DataSize);
 				}
 				else
 				{
@@ -102,7 +100,7 @@ bool HandleChunk(Chunk* chunk)
 			}
 			else
 			{
-				printf("First IDAT size: %lld\n", idat->DataSize);
+				printf("First IDAT size: %d\n", idat->DataSize);
 				concatenatedIDAT = idat;
 			}
 		}
