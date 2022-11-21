@@ -6,6 +6,7 @@
 #include "IHDR.h"
 #include "PLTE.h"
 #include "IDAT.h"
+#include "PNGImage.h"
 
 bool PNG_Decode(FILE* png);
 bool DecodeHeader(FILE* png);
@@ -110,6 +111,7 @@ bool HandleChunk(Chunk* chunk)
 	else if (Chunk_CompareType(chunk, "IEND"))
 	{
 		printf("Handling IEND!\n");
+		PNGImage* image = PNGI_Get(ihdr, plte, concatenatedIDAT);
 		shouldContinue = false;
 	}
 	else

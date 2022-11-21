@@ -25,6 +25,7 @@
     <ClCompile Include="src\IDAT.c" />
     <ClCompile Include="src\IHDR.c" />
     <ClCompile Include="src\PLTE.c" />
+    <ClCompile Include="src\PNGImage.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\FourBytes.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="header\IDAT.h" />
     <ClInclude Include="header\IHDR.h" />
     <ClInclude Include="header\PLTE.h" />
+    <ClInclude Include="header\PNGImage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
