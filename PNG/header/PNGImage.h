@@ -9,6 +9,7 @@ typedef struct {
 	PLTE* Palette;
 	IDAT* Data;
 	bool IsValid;
+	byte PixelWidth;
 } PNGImage;
 
 PNGImage* PNGI_Get(IHDR* header, PLTE* palette, IDAT* compressedData);

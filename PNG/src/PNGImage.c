@@ -15,6 +15,9 @@ PNGImage* PNGI_Get(IHDR* header, PLTE* palette, IDAT* compressedData)
 			image->Header = header;
 			image->Palette = palette;
 			image->Data = compressedData;
+			image->PixelWidth = IHDR_GetPixelWidth(image->Header->ColorType);
+			if (image->PixelWidth == -1)
+				return image;
 			DecompressData(image);
 		}	
 	}
