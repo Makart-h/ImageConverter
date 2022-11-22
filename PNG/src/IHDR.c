@@ -24,6 +24,24 @@ IHDR* IHDR_Get(byte* data)
 	return ihdr;
 }
 
+byte IHDR_GetPixelWidth(byte colorType)
+{
+	switch (colorType)
+	{
+	case Grayscale:
+	case IndexedColor:
+		return 1;
+	case Truecolor:
+		return 3;
+	case GrayscaleAlpha:
+		return 2;
+	case TruecolorAlpha:
+		return 4;
+	default:
+		return -1;
+	}
+}
+
 static void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset)
 {
 	ihdr->CompressionMethod = *(data + (*offset)++);
@@ -59,7 +77,7 @@ static void ReadBitDepthAndColorType(IHDR* ihdr, byte* data, int* offset)
 	ihdr->BitDepth = *(data + (*offset)++);
 	ihdr->ColorType = *(data + (*offset)++);
 
-	const byte validColorTypes[] = { 0, 2, 3, 4, 6 };
+	static byte validColorTypes[] = { Grayscale, Truecolor, IndexedColor, GrayscaleAlpha, TruecolorAlpha };
 	bool isColorValid = false;
 	for (int i = 0; i < sizeof validColorTypes; i++)
 	{
