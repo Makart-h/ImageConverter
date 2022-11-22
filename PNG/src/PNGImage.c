@@ -37,8 +37,5 @@ static void DecompressData(PNGImage* image)
 
 static void ReverseFiltering(PNGImage* image)
 {
-	if (image->Header->FilterMethod != 0)
-		return;
-
 	// Reverse filtering
 }
