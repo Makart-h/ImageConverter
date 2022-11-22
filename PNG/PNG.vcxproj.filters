@@ -36,6 +36,9 @@
     <ClCompile Include="src\PNGImage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Filtering.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\FourBytes.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\PNGImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Filtering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Filtering.c" />
     <ClCompile Include="src\FourBytes.c" />
     <ClCompile Include="src\Chunk.c" />
     <ClCompile Include="src\Decoder.c" />
@@ -28,6 +29,7 @@
     <ClCompile Include="src\PNGImage.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\Filtering.h" />
     <ClInclude Include="header\FourBytes.h" />
     <ClInclude Include="header\Chunk.h" />
     <ClInclude Include="header\Decoder.h" />
