@@ -10,7 +10,7 @@ PNGImage* PNGI_Get(IHDR* header, PLTE* palette, IDAT* compressedData)
 	if (image != NULL)
 	{
 		image->IsValid = false;
-		if (header != NULL || compressedData != NULL)
+		if (header != NULL && compressedData != NULL)
 		{
 			image->Header = header;
 			image->Palette = palette;
