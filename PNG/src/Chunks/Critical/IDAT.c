@@ -1,4 +1,4 @@
-#include "IDAT.h"
+#include "Chunks/Critical/IDAT.h"
 #include <stdlib.h>
 #include <string.h>
 #include "zlib/zlib.h"
@@ -82,6 +82,7 @@ IDAT* IDAT_Decompress(IDAT* compressed)
 				decompressed->Data = realloc(decompressed->Data, decompressed->DataSize);
 				if (decompressed->Data == NULL)
 					decompressed->Data = old;
+				printf("Compressed size: %d, decompressed size: %d\n", compressed->DataSize, decompressed->DataSize);
 				return decompressed;
 			case Z_MEM_ERROR:
 				printf("Not enough memory!\n");

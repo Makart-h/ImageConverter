@@ -1,4 +1,4 @@
-#include "IHDR.h"
+#include "Chunks/Critical/IHDR.h"
 #include <stdlib.h>
 
 static void ReadCompressionMethod(IHDR* ihdr, byte* data, int* offset);

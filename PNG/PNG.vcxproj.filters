@@ -18,19 +18,19 @@
     <ClCompile Include="src\FourBytes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Chunk.c">
+    <ClCompile Include="src\Chunks\Chunk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Decoder.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IHDR.c">
+    <ClCompile Include="src\Chunks\Critical\IHDR.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PLTE.c">
+    <ClCompile Include="src\Chunks\Critical\PLTE.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IDAT.c">
+    <ClCompile Include="src\Chunks\Critical\IDAT.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PNGImage.c">
@@ -44,19 +44,19 @@
     <ClInclude Include="header\FourBytes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\Chunk.h">
+    <ClInclude Include="header\Chunks\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\Decoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\IHDR.h">
+    <ClInclude Include="header\Chunks\Critical\IHDR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\PLTE.h">
+    <ClInclude Include="header\Chunks\Critical\PLTE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\IDAT.h">
+    <ClInclude Include="header\Chunks\Critical\IDAT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\PNGImage.h">

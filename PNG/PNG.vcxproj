@@ -21,21 +21,21 @@
   <ItemGroup>
     <ClCompile Include="src\Filtering.c" />
     <ClCompile Include="src\FourBytes.c" />
-    <ClCompile Include="src\Chunk.c" />
+    <ClCompile Include="src\Chunks\Chunk.c" />
     <ClCompile Include="src\Decoder.c" />
-    <ClCompile Include="src\IDAT.c" />
-    <ClCompile Include="src\IHDR.c" />
-    <ClCompile Include="src\PLTE.c" />
+    <ClCompile Include="src\Chunks\Critical\IDAT.c" />
+    <ClCompile Include="src\Chunks\Critical\IHDR.c" />
+    <ClCompile Include="src\Chunks\Critical\PLTE.c" />
     <ClCompile Include="src\PNGImage.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header\Filtering.h" />
     <ClInclude Include="header\FourBytes.h" />
-    <ClInclude Include="header\Chunk.h" />
+    <ClInclude Include="header\Chunks\Chunk.h" />
     <ClInclude Include="header\Decoder.h" />
-    <ClInclude Include="header\IDAT.h" />
-    <ClInclude Include="header\IHDR.h" />
-    <ClInclude Include="header\PLTE.h" />
+    <ClInclude Include="header\Chunks\Critical\IDAT.h" />
+    <ClInclude Include="header\Chunks\Critical\IHDR.h" />
+    <ClInclude Include="header\Chunks\Critical\PLTE.h" />
     <ClInclude Include="header\PNGImage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

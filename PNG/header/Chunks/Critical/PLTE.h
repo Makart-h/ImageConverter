@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "Chunk.h"
+#include "Chunks/Chunk.h"
 #include "ImageData/header/RGB.h"
 
 #define COLOR_CHANNELS_COUNT 3

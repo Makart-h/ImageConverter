@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "Decoder.h"
-#include "Chunk.h"
+#include "Chunks/Chunk.h"
 #include "FourBytes.h"
-#include "IHDR.h"
-#include "PLTE.h"
-#include "IDAT.h"
+#include "Chunks/Critical/IHDR.h"
+#include "Chunks/Critical/PLTE.h"
+#include "Chunks/Critical/IDAT.h"
 #include "PNGImage.h"
 
 static bool DecodeHeader(FILE* png);

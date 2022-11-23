@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "Chunk.h"
+#include "Chunks/Chunk.h"
 #include "Decoder.h"
 
 #define BYTE_VALUES_COUNT 256

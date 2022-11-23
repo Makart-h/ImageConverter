@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "Chunk.h"
+#include "Chunks/Chunk.h"
 
 typedef struct
 {

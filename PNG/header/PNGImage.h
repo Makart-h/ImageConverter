@@ -1,7 +1,7 @@
 #pragma once
-#include "IHDR.h"
-#include "PLTE.h"
-#include "IDAT.h"
+#include "Chunks/Critical/IHDR.h"
+#include "Chunks/Critical/PLTE.h"
+#include "Chunks/Critical/IDAT.h"
 #include <stdbool.h>
 
 typedef struct {
